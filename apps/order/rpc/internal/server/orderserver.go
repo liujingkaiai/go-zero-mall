@@ -8,12 +8,12 @@ import (
 
 	"rpc/internal/logic"
 	"rpc/internal/svc"
-	"rpc/rpc"
+	"rpc/order"
 )
 
 type OrderServer struct {
 	svcCtx *svc.ServiceContext
-	rpc.UnimplementedOrderServer
+	order.UnimplementedOrderServer
 }
 
 func NewOrderServer(svcCtx *svc.ServiceContext) *OrderServer {
@@ -22,37 +22,7 @@ func NewOrderServer(svcCtx *svc.ServiceContext) *OrderServer {
 	}
 }
 
-func (s *OrderServer) Orders(ctx context.Context, in *rpc.OrdersRequest) (*rpc.OrdersResponse, error) {
+func (s *OrderServer) Orders(ctx context.Context, in *order.OrdersRequest) (*order.OrdersResponse, error) {
 	l := logic.NewOrdersLogic(ctx, s.svcCtx)
 	return l.Orders(in)
-}
-
-func (s *OrderServer) CreateOrder(ctx context.Context, in *rpc.CreateOrderRequest) (*rpc.CreateOrderResponse, error) {
-	l := logic.NewCreateOrderLogic(ctx, s.svcCtx)
-	return l.CreateOrder(in)
-}
-
-func (s *OrderServer) CreateOrderCheck(ctx context.Context, in *rpc.CreateOrderRequest) (*rpc.CreateOrderResponse, error) {
-	l := logic.NewCreateOrderCheckLogic(ctx, s.svcCtx)
-	return l.CreateOrderCheck(in)
-}
-
-func (s *OrderServer) RollbackOrder(ctx context.Context, in *rpc.CreateOrderRequest) (*rpc.CreateOrderResponse, error) {
-	l := logic.NewRollbackOrderLogic(ctx, s.svcCtx)
-	return l.RollbackOrder(in)
-}
-
-func (s *OrderServer) CreateOrderDTM(ctx context.Context, in *rpc.AddOrderReq) (*rpc.AddOrderResp, error) {
-	l := logic.NewCreateOrderDTMLogic(ctx, s.svcCtx)
-	return l.CreateOrderDTM(in)
-}
-
-func (s *OrderServer) CreateOrderDTMRevert(ctx context.Context, in *rpc.AddOrderReq) (*rpc.AddOrderResp, error) {
-	l := logic.NewCreateOrderDTMRevertLogic(ctx, s.svcCtx)
-	return l.CreateOrderDTMRevert(in)
-}
-
-func (s *OrderServer) GetOrderById(ctx context.Context, in *rpc.GetOrderByIdReq) (*rpc.GetOrderByIdResp, error) {
-	l := logic.NewGetOrderByIdLogic(ctx, s.svcCtx)
-	return l.GetOrderById(in)
 }

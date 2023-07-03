@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"rpc/internal/svc"
-	"rpc/rpc"
+	"rpc/order"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -23,8 +23,8 @@ func NewOrdersLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OrdersLogi
 	}
 }
 
-func (l *OrdersLogic) Orders(in *rpc.OrdersRequest) (*rpc.OrdersResponse, error) {
+func (l *OrdersLogic) Orders(in *order.OrdersRequest) (*order.OrdersResponse, error) {
 	// todo: add your logic here and delete this line
 
-	return &rpc.OrdersResponse{}, nil
+	return &order.OrdersResponse{}, nil
 }
