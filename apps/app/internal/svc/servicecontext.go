@@ -5,7 +5,9 @@ import (
 )
 
 type ServiceContext struct {
-	Config config.Config
+	Config     config.Config
+	OrderRpc   order.Order
+	ProductRPC product.Product
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
