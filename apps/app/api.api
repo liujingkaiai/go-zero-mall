@@ -139,31 +139,31 @@ service api-api {
 	@doc "首页Banner"
 	@handler HomeBannerHandler
 	get /v1/home/banner returns (HomeBannerResponse)
-	
+
 	@doc "限时抢购"
 	@handler FlashSaleHandler
 	get /v1/flashsale returns (FlashSaleResponse)
-	
+
 	@doc "推荐商品列表"
 	@handler RecommendHandler
 	get /v1/recommend (RecommendRequest) returns (RecommendResponse)
-	
+
 	@doc "分类商品列表"
 	@handler CategoryListHandler
 	get /v1/category/list (CategoryListRequest) returns (CategoryListResponse)
-	
+
 	@doc "购物车列表"
 	@handler CartListHandler
 	get /v1/cart/list (CartListRequest) returns (CartListResponse)
-	
+
 	@doc "商品评论列表"
 	@handler ProductCommentHandler
 	get /v1/product/comment (ProductCommentRequest) returns (ProductCommentResponse)
-	
+
 	@doc "订单列表"
 	@handler OrderListHandler
 	get /v1/order/list (OrderListRequest) returns (OrderListResponse)
-	
+
 	@doc "商品详情"
 	@handler ProductDetailHandler
 	get /v1/product/detail (ProductDetailRequest) returns (ProductDetailResponse)
