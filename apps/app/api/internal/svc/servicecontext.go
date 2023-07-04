@@ -2,15 +2,15 @@ package svc
 
 import (
 	"github.com/liujingkaiai/go-zero-mall/apps/app/api/internal/config"
-	"github.com/liujingkaiai/go-zero-mall/apps/order/rpc/order"
-	"github.com/liujingkaiai/go-zero-mall/apps/product/rpc/product"
+	order "github.com/liujingkaiai/go-zero-mall/apps/order/rpc/orderclient"
+	product "github.com/liujingkaiai/go-zero-mall/apps/product/rpc/productclient"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
-	Config   config.Config
-	OrderRPC order.Order
-	Product  product.Product
+	Config     config.Config
+	OrderRPC   order.Order
+	ProductRPC product.Product
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
