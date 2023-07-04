@@ -4,7 +4,12 @@ package product;
 option go_package="./product";
 
 service Product {
+  rpc Product(ProductItemRequest) returns (ProductItem) ;
   rpc Products(ProductRequest) returns(ProductResponse);
+}
+
+message ProductItemRequest {
+  int64 product_id = 1;
 }
 
 message ProductRequest {
@@ -12,7 +17,7 @@ message ProductRequest {
 }
 
 message ProductResponse {
-  repeated ProductItem products = 1;
+  map<int64, ProductItem> products = 1;
 }
 
 message ProductItem {
