@@ -3,6 +3,7 @@ module github.com/liujingkaiai/go-zero-mall
 go 1.20
 
 require (
+	github.com/aliyun/aliyun-oss-go-sdk v2.2.7+incompatible
 	github.com/zeromicro/go-zero v1.5.3
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
