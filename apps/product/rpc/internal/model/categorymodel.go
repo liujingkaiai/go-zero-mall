@@ -1,6 +1,9 @@
 package model
 
-import "github.com/zeromicro/go-zero/core/stores/sqlx"
+import (
+	"github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+)
 
 var _ CategoryModel = (*customCategoryModel)(nil)
 
@@ -17,8 +20,8 @@ type (
 )
 
 // NewCategoryModel returns a model for the database table.
-func NewCategoryModel(conn sqlx.SqlConn) CategoryModel {
+func NewCategoryModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) CategoryModel {
 	return &customCategoryModel{
-		defaultCategoryModel: newCategoryModel(conn),
+		defaultCategoryModel: newCategoryModel(conn, c, opts...),
 	}
 }
