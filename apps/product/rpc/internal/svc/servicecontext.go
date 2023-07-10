@@ -5,6 +5,8 @@ import (
 	"github.com/liujingkaiai/go-zero-mall/apps/product/rpc/internal/model"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+
+	"golang.org/x/sync/singleflight"
 )
 
 type ServiceContext struct {
@@ -12,6 +14,7 @@ type ServiceContext struct {
 	ProductModel  model.ProductModel
 	CategoryModel model.CategoryModel
 	BizRedis      *redis.Redis
+	SingleGroup   singleflight.Group
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
