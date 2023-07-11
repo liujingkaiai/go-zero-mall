@@ -7,6 +7,7 @@ service Product {
   rpc Product(ProductItemRequest) returns (ProductItem) ;
   rpc Products(ProductRequest) returns(ProductResponse);
   rpc ProductList(ProductListRequest) returns(ProductListResponse);
+  rpc OperationProducts(OperationProductRequest) returns(OperationProductResponse);
 }
 
 message ProductItemRequest {
@@ -34,6 +35,16 @@ message ProductListResponse {
   int64 product_id = 3;
   repeated ProductItem products = 4;
 }
+
+
+message OperationProductRequest  {
+
+}
+
+message OperationProductResponse {
+    repeated ProductItem products = 1;
+}
+
 
 message ProductItem {
   int64 product_id = 1;

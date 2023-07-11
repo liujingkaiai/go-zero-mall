@@ -1,6 +1,9 @@
 package model
 
 import (
+	"context"
+	"fmt"
+
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -12,6 +15,7 @@ type (
 	// and implement the added methods in customProductOperationModel.
 	ProductOperationModel interface {
 		productOperationModel
+		OperationProducts(ctx context.Context, status int64) ([]*ProductOperation, error)
 	}
 
 	customProductOperationModel struct {
@@ -24,4 +28,9 @@ func NewProductOperationModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cach
 	return &customProductOperationModel{
 		defaultProductOperationModel: newProductOperationModel(conn, c, opts...),
 	}
+}
+
+func (m *customProductOperationModel) OperationProducts(ctx context.Context, status int64) (operations []*ProductOperation, err error) {
+	err = m.QueryRowsNoCacheCtx(ctx, &operations, fmt.Sprintf("select %s from %s where status=?", productOperationRows, m.table), status)
+	return
 }
