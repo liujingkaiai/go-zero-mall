@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Product_Product_FullMethodName           = "/product.Product/Product"
-	Product_Products_FullMethodName          = "/product.Product/Products"
-	Product_ProductList_FullMethodName       = "/product.Product/ProductList"
-	Product_OperationProducts_FullMethodName = "/product.Product/OperationProducts"
+	Product_Product_FullMethodName            = "/product.Product/Product"
+	Product_Products_FullMethodName           = "/product.Product/Products"
+	Product_ProductList_FullMethodName        = "/product.Product/ProductList"
+	Product_OperationProducts_FullMethodName  = "/product.Product/OperationProducts"
+	Product_UpdateProductStock_FullMethodName = "/product.Product/UpdateProductStock"
 )
 
 // ProductClient is the client API for Product service.
@@ -32,7 +33,8 @@ type ProductClient interface {
 	Product(ctx context.Context, in *ProductItemRequest, opts ...grpc.CallOption) (*ProductItem, error)
 	Products(ctx context.Context, in *ProductRequest, opts ...grpc.CallOption) (*ProductResponse, error)
 	ProductList(ctx context.Context, in *ProductListRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
-	OperationProducts(ctx context.Context, in *OperationProductRequest, opts ...grpc.CallOption) (*OperationProductResponse, error)
+	OperationProducts(ctx context.Context, in *OperationProductsRequest, opts ...grpc.CallOption) (*OperationProductsResponse, error)
+	UpdateProductStock(ctx context.Context, in *UpdateProductStockRequest, opts ...grpc.CallOption) (*UpdateProductStockResponse, error)
 }
 
 type productClient struct {
@@ -70,9 +72,18 @@ func (c *productClient) ProductList(ctx context.Context, in *ProductListRequest,
 	return out, nil
 }
 
-func (c *productClient) OperationProducts(ctx context.Context, in *OperationProductRequest, opts ...grpc.CallOption) (*OperationProductResponse, error) {
-	out := new(OperationProductResponse)
+func (c *productClient) OperationProducts(ctx context.Context, in *OperationProductsRequest, opts ...grpc.CallOption) (*OperationProductsResponse, error) {
+	out := new(OperationProductsResponse)
 	err := c.cc.Invoke(ctx, Product_OperationProducts_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productClient) UpdateProductStock(ctx context.Context, in *UpdateProductStockRequest, opts ...grpc.CallOption) (*UpdateProductStockResponse, error) {
+	out := new(UpdateProductStockResponse)
+	err := c.cc.Invoke(ctx, Product_UpdateProductStock_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +97,8 @@ type ProductServer interface {
 	Product(context.Context, *ProductItemRequest) (*ProductItem, error)
 	Products(context.Context, *ProductRequest) (*ProductResponse, error)
 	ProductList(context.Context, *ProductListRequest) (*ProductListResponse, error)
-	OperationProducts(context.Context, *OperationProductRequest) (*OperationProductResponse, error)
+	OperationProducts(context.Context, *OperationProductsRequest) (*OperationProductsResponse, error)
+	UpdateProductStock(context.Context, *UpdateProductStockRequest) (*UpdateProductStockResponse, error)
 	mustEmbedUnimplementedProductServer()
 }
 
@@ -103,8 +115,11 @@ func (UnimplementedProductServer) Products(context.Context, *ProductRequest) (*P
 func (UnimplementedProductServer) ProductList(context.Context, *ProductListRequest) (*ProductListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProductList not implemented")
 }
-func (UnimplementedProductServer) OperationProducts(context.Context, *OperationProductRequest) (*OperationProductResponse, error) {
+func (UnimplementedProductServer) OperationProducts(context.Context, *OperationProductsRequest) (*OperationProductsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OperationProducts not implemented")
+}
+func (UnimplementedProductServer) UpdateProductStock(context.Context, *UpdateProductStockRequest) (*UpdateProductStockResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProductStock not implemented")
 }
 func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
 
@@ -174,7 +189,7 @@ func _Product_ProductList_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _Product_OperationProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OperationProductRequest)
+	in := new(OperationProductsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -186,7 +201,25 @@ func _Product_OperationProducts_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: Product_OperationProducts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProductServer).OperationProducts(ctx, req.(*OperationProductRequest))
+		return srv.(ProductServer).OperationProducts(ctx, req.(*OperationProductsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Product_UpdateProductStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductStockRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).UpdateProductStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_UpdateProductStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).UpdateProductStock(ctx, req.(*UpdateProductStockRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -213,6 +246,10 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OperationProducts",
 			Handler:    _Product_OperationProducts_Handler,
+		},
+		{
+			MethodName: "UpdateProductStock",
+			Handler:    _Product_UpdateProductStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

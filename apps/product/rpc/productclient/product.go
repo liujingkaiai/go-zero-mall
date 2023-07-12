@@ -13,20 +13,23 @@ import (
 )
 
 type (
-	OperationProductRequest  = product.OperationProductRequest
-	OperationProductResponse = product.OperationProductResponse
-	ProductItem              = product.ProductItem
-	ProductItemRequest       = product.ProductItemRequest
-	ProductListRequest       = product.ProductListRequest
-	ProductListResponse      = product.ProductListResponse
-	ProductRequest           = product.ProductRequest
-	ProductResponse          = product.ProductResponse
+	OperationProductsRequest   = product.OperationProductsRequest
+	OperationProductsResponse  = product.OperationProductsResponse
+	ProductItem                = product.ProductItem
+	ProductItemRequest         = product.ProductItemRequest
+	ProductListRequest         = product.ProductListRequest
+	ProductListResponse        = product.ProductListResponse
+	ProductRequest             = product.ProductRequest
+	ProductResponse            = product.ProductResponse
+	UpdateProductStockRequest  = product.UpdateProductStockRequest
+	UpdateProductStockResponse = product.UpdateProductStockResponse
 
 	Product interface {
 		Product(ctx context.Context, in *ProductItemRequest, opts ...grpc.CallOption) (*ProductItem, error)
 		Products(ctx context.Context, in *ProductRequest, opts ...grpc.CallOption) (*ProductResponse, error)
 		ProductList(ctx context.Context, in *ProductListRequest, opts ...grpc.CallOption) (*ProductListResponse, error)
-		OperationProducts(ctx context.Context, in *OperationProductRequest, opts ...grpc.CallOption) (*OperationProductResponse, error)
+		OperationProducts(ctx context.Context, in *OperationProductsRequest, opts ...grpc.CallOption) (*OperationProductsResponse, error)
+		UpdateProductStock(ctx context.Context, in *UpdateProductStockRequest, opts ...grpc.CallOption) (*UpdateProductStockResponse, error)
 	}
 
 	defaultProduct struct {
@@ -55,7 +58,12 @@ func (m *defaultProduct) ProductList(ctx context.Context, in *ProductListRequest
 	return client.ProductList(ctx, in, opts...)
 }
 
-func (m *defaultProduct) OperationProducts(ctx context.Context, in *OperationProductRequest, opts ...grpc.CallOption) (*OperationProductResponse, error) {
+func (m *defaultProduct) OperationProducts(ctx context.Context, in *OperationProductsRequest, opts ...grpc.CallOption) (*OperationProductsResponse, error) {
 	client := product.NewProductClient(m.cli.Conn())
 	return client.OperationProducts(ctx, in, opts...)
+}
+
+func (m *defaultProduct) UpdateProductStock(ctx context.Context, in *UpdateProductStockRequest, opts ...grpc.CallOption) (*UpdateProductStockResponse, error) {
+	client := product.NewProductClient(m.cli.Conn())
+	return client.UpdateProductStock(ctx, in, opts...)
 }

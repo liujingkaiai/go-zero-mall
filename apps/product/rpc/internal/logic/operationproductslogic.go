@@ -30,11 +30,11 @@ func NewOperationProductsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *OperationProductsLogic) OperationProducts(in *product.OperationProductRequest) (*product.OperationProductResponse, error) {
+func (l *OperationProductsLogic) OperationProducts(in *product.OperationProductsRequest) (*product.OperationProductsResponse, error) {
 	// todo: add your logic here and delete this line
 	opProducts, ok := l.svcCtx.LocalCache.Get(operationProductsKey)
 	if ok {
-		return &product.OperationProductResponse{
+		return &product.OperationProductsResponse{
 			Products: opProducts.([]*product.ProductItem),
 		}, nil
 	}
@@ -62,7 +62,7 @@ func (l *OperationProductsLogic) OperationProducts(in *product.OperationProductR
 	}
 
 	l.svcCtx.LocalCache.Set(operationProductsKey, pItems)
-	return &product.OperationProductResponse{
+	return &product.OperationProductsResponse{
 		Products: pItems,
 	}, nil
 }
