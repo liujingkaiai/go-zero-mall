@@ -25,6 +25,6 @@ func NewUpdateProductStockLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 func (l *UpdateProductStockLogic) UpdateProductStock(in *product.UpdateProductStockRequest) (*product.UpdateProductStockResponse, error) {
 	// todo: add your logic here and delete this line
-
-	return &product.UpdateProductStockResponse{}, nil
+	err := l.svcCtx.ProductModel.UpdateProductStock(l.ctx, in.ProductId, in.Num)
+	return &product.UpdateProductStockResponse{}, err
 }
