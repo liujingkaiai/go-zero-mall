@@ -28,7 +28,7 @@ func NewService(c config.Config) *Service {
 	return &Service{
 		c:          c,
 		ProductRPC: productclient.NewProduct(zrpc.MustNewClient(c.ProductRPC)),
-		OrderPRC:   orderclient.NewOrder(zrpc.MustNewClient(c.OrderPRC)),
+		OrderPRC:   orderclient.NewOrder(zrpc.MustNewClient(c.OrderRPC)),
 	}
 }
 

@@ -8,5 +8,5 @@ import (
 type Config struct {
 	Kafka      kq.KqConf
 	ProductRPC zrpc.RpcClientConf
-	OrderPRC   zrpc.RpcClientConf
+	OrderRPC   zrpc.RpcClientConf
 }
