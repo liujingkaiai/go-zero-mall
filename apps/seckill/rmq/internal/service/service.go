@@ -33,7 +33,7 @@ func NewService(c config.Config) *Service {
 }
 
 func (s *Service) Consume(_ string, value string) (err error) {
-	logx.Info("Consume value:%s \n", value)
+	logx.Infof("Consume value:%s \n", value)
 	var data KafkaData
 	if err = json.Unmarshal([]byte(value), &data); err != nil {
 		return

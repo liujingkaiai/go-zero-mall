@@ -60,6 +60,7 @@ func (l *SeckillOrderLogic) SeckillOrder(in *seckill.SeckillOrderRequest) (*seck
 	p, err := l.svcCtx.ProductRPC.Product(l.ctx, &product.ProductItemRequest{
 		ProductId: in.ProductId,
 	})
+
 	if err != nil {
 		return nil, err
 	}
@@ -74,6 +75,7 @@ func (l *SeckillOrderLogic) SeckillOrder(in *seckill.SeckillOrderRequest) (*seck
 	}
 
 	if err := l.svcCtx.KafkaPusher.Push(string(kd)); err != nil {
+
 		return nil, err
 	}
 	return &seckill.SeckillOrderResponse{}, nil
