@@ -8,6 +8,7 @@ import (
 	"github.com/liujingkaiai/go-zero-mall/apps/seckill/rpc/internal/server"
 	"github.com/liujingkaiai/go-zero-mall/apps/seckill/rpc/internal/svc"
 	"github.com/liujingkaiai/go-zero-mall/apps/seckill/rpc/seckill"
+	"github.com/liujingkaiai/go-zero-mall/common/interceptor/rpcserver"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -32,6 +33,8 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+
+	s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

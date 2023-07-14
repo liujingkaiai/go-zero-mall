@@ -9,12 +9,16 @@ import (
 	"github.com/liujingkaiai/go-zero-mall/apps/product/rpc/product"
 	"github.com/liujingkaiai/go-zero-mall/apps/seckill/rpc/internal/svc"
 	"github.com/liujingkaiai/go-zero-mall/apps/seckill/rpc/seckill"
+	"github.com/liujingkaiai/go-zero-mall/common/xerr"
+	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/limit"
 	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+var ErrProductNotEnough = xerr.NewErrMsg("商品库存不足")
 
 const (
 	limitPeriod       = 10
@@ -66,7 +70,7 @@ func (l *SeckillOrderLogic) SeckillOrder(in *seckill.SeckillOrderRequest) (*seck
 	}
 	//判断商品库存
 	if p.Stock <= 0 {
-		return nil, status.Errorf(codes.OutOfRange, "Insufficient stock")
+		return nil, errors.Wrapf(ErrProductNotEnough, "库存不足 商品:%s,err:%v", p.Name, err)
 	}
 
 	kd, err := json.Marshal(&KafkaData{Uid: in.UserId, Pid: p.ProductId})
